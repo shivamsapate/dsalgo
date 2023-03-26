@@ -2,6 +2,7 @@ package com.ds.GenericTree;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -11,6 +12,7 @@ public class Tree7 {
         ArrayList<Node> children = new ArrayList<>();
     }
 
+    //level order traversal
     public static void levelOrder(Node root) {
         Queue<Node> que = new ArrayDeque<>();
         que.add(root);
@@ -20,6 +22,45 @@ public class Tree7 {
             for (Node child : root.children) {
                 que.add(child);
             }
+        }
+    }
+
+    // In line level order traversal
+    public static void inLineLevelOrder(Node root){
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            if(q.peek() == null){
+                System.out.println();
+                q.remove();
+            } else {
+                q.add(null);
+            }
+
+            root = q.remove();
+            System.out.print(root.data + " ");
+            for (Node child : root.children) {
+                q.add(child);
+            }
+        }
+    }
+
+    //inLine Level order traversal 2nd approach with two queues
+    public static void inLineLevelOrder2(Node root){
+        Queue<Node> q = new ArrayDeque<>();
+        Queue<Node> childq = new ArrayDeque<>();
+        q.add(root);
+        while(!q.isEmpty() || !childq.isEmpty()){
+            root = q.remove();
+            System.out.print(root.data + " ");
+            for(Node child : root.children){
+                childq.add(child);
+            }
+            if(q.isEmpty()){
+                q = new ArrayDeque<>(childq);
+                childq.clear();
+                System.out.println();
+            } 
         }
     }
 
@@ -56,6 +97,8 @@ public class Tree7 {
             }
         }
         display(root);
-        levelOrder(root);
+        // levelOrder(root);
+        // inLineLevelOrder(root);
+        inLineLevelOrder2(root);
     }
 }
